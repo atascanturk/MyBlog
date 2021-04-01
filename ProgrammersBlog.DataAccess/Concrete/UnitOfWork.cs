@@ -12,11 +12,10 @@ namespace ProgrammersBlog.DataAccess.Concrete
     public class UnitOfWork : IUnitOfWork
     {
        private readonly ProgrammersBlogContext _context;
-        private EfArticleRepository _articleRepository;
-        private EfCategoryRepository _categoryRepository;
-        private EfCommentRepository _commentRepository;
-        private EfRoleRepository _roleRepository;
-        private EfUserRepository _userRepository;
+        private readonly EfArticleRepository _articleRepository;
+        private readonly EfCategoryRepository _categoryRepository;
+        private readonly EfCommentRepository _commentRepository;
+       
 
         public UnitOfWork(ProgrammersBlogContext context)
         {
@@ -28,9 +27,6 @@ namespace ProgrammersBlog.DataAccess.Concrete
 
         public ICommentRepository Comments => _commentRepository ?? new EfCommentRepository(_context);
 
-        public IRoleRepository Roles => _roleRepository ?? new EfRoleRepository(_context);
-
-        public IUserRepository Users => _userRepository ?? new EfUserRepository(_context);
 
         public async ValueTask DisposeAsync()
         {

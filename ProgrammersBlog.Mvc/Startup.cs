@@ -25,8 +25,25 @@ namespace ProgrammersBlog.Mvc
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             }); //mvc yapýsý için //razor runtime nugetten indirildi,
             //sayfadaki deðiþiklikleri anlýk olarak görüntülemek için (razorruntime)
+            services.AddSession();
             services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile));
             services.LoadMyServices();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = new PathString("/Admin/User/Login");
+                options.LogoutPath = new PathString("/Admin/User/Logout");
+                options.Cookie = new CookieBuilder
+                {
+                    Name = "ProgrammersBlog",
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.Strict,
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest //Always
+                };
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = System.TimeSpan.FromDays(7);
+                options.AccessDeniedPath = new PathString("/Admin/User/AccessDenied");
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,12 +55,15 @@ namespace ProgrammersBlog.Mvc
                 app.UseStatusCodePages(); // 404 hatasý için
             }
 
+            app.UseSession();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication(); // Kimlik kontrolü
+            app.UseAuthorization(); // Yetki kontrolü
 
             app.UseEndpoints(endpoints =>
             {
-                 endpoints.MapAreaControllerRoute( //tek area kullanýlacaðý için baþka uygulama olmayacaksa mapcontrollerrote
+                 endpoints.MapAreaControllerRoute( //tek area kullanýlacaðý için baþka uygulama olmayacaksa mapcontrollerroute
                         name: "Admin",
                         areaName: "Admin",
                         pattern: "Admin/{controller=Home}/{action=Index}/{id?}"
