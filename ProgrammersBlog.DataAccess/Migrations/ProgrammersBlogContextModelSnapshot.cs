@@ -15,16 +15,16 @@ namespace ProgrammersBlog.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("ProgrammersBlog.Entities.Concrete.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -108,7 +108,7 @@ namespace ProgrammersBlog.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreatedByName")
                         .IsRequired()
@@ -154,12 +154,12 @@ namespace ProgrammersBlog.DataAccess.Migrations
                         {
                             Id = 1,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(6565),
+                            CreatedDate = new DateTime(2021, 4, 3, 18, 32, 6, 236, DateTimeKind.Local).AddTicks(6087),
                             Description = "C# Programlama Dili ile İlgili En Güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7155),
+                            ModifiedDate = new DateTime(2021, 4, 3, 18, 32, 6, 236, DateTimeKind.Local).AddTicks(6695),
                             Name = "C#",
                             Note = "C# Blog Kategorisi"
                         },
@@ -167,12 +167,12 @@ namespace ProgrammersBlog.DataAccess.Migrations
                         {
                             Id = 2,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7729),
+                            CreatedDate = new DateTime(2021, 4, 3, 18, 32, 6, 236, DateTimeKind.Local).AddTicks(7282),
                             Description = "C++ Programlama Dili ile İlgili En Güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7731),
+                            ModifiedDate = new DateTime(2021, 4, 3, 18, 32, 6, 236, DateTimeKind.Local).AddTicks(7283),
                             Name = "C++",
                             Note = "C++ Blog Kategorisi"
                         },
@@ -180,12 +180,12 @@ namespace ProgrammersBlog.DataAccess.Migrations
                         {
                             Id = 3,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7734),
+                            CreatedDate = new DateTime(2021, 4, 3, 18, 32, 6, 236, DateTimeKind.Local).AddTicks(7287),
                             Description = "JavaScript Programlama Dili ile İlgili En Güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7735),
+                            ModifiedDate = new DateTime(2021, 4, 3, 18, 32, 6, 236, DateTimeKind.Local).AddTicks(7288),
                             Name = "JavaScript",
                             Note = "JavaScript Blog Kategorisi"
                         });
@@ -196,7 +196,7 @@ namespace ProgrammersBlog.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ArticleId")
                         .HasColumnType("int");
@@ -244,7 +244,7 @@ namespace ProgrammersBlog.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -271,14 +271,14 @@ namespace ProgrammersBlog.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "ba6b75e6-3755-4cf7-b3af-88472701ccea",
+                            ConcurrencyStamp = "e37811b6-a491-4a99-b380-b7e520495cd3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "fc2769ec-c93e-4b06-8c2c-82a0940df795",
+                            ConcurrencyStamp = "b64e8ea8-d3ef-4991-854b-acb6c3c6fe61",
                             Name = "Editor",
                             NormalizedName = "EDITOR"
                         });
@@ -289,7 +289,7 @@ namespace ProgrammersBlog.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -312,7 +312,7 @@ namespace ProgrammersBlog.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -383,17 +383,17 @@ namespace ProgrammersBlog.DataAccess.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "df4e8538-e787-4b35-ba03-f7d918799d00",
+                            ConcurrencyStamp = "e60c66a0-4fe1-4076-991a-255377ed597e",
                             Email = "adminuser@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINUSER@GMAIL.COM",
                             NormalizedUserName = "ADMINUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM4o2w336COg6oQx2voJ9Mtt/oWEgfVkcZtXGIbw3XPzu8KCasZzKYtnTOp6ICHmiQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMRAQ5v+dGwuvMvoXdH7zOG+jFxDX8WsJV7dIxSyReEC6veg8K6hZzPDT/TDhJKh0Q==",
                             PhoneNumber = "+905555555555",
                             PhoneNumberConfirmed = true,
                             Picture = "defaultUser.png",
-                            SecurityStamp = "08be344f-bd61-41dc-bb3c-fbc1fe0a1b12",
+                            SecurityStamp = "dabe2bbe-4589-40bc-b6b1-16a074081cb6",
                             TwoFactorEnabled = false,
                             UserName = "adminuser"
                         },
@@ -401,17 +401,17 @@ namespace ProgrammersBlog.DataAccess.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2b574069-651d-4e3b-b750-f97d2dcf9477",
+                            ConcurrencyStamp = "fe48783f-36c3-49c7-bd17-2a5169e22285",
                             Email = "editoruser@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "EDITORUSER@GMAIL.COM",
                             NormalizedUserName = "EDITORUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFx4BHwEGInY1y/Lu9IyCjXJ3HbpzgjGr35fyVdpd1nKgcnRhY4AQDPNoHA5vHsWnQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG0DL4IVNwPFTBmkQq4cjmMEUKxTsTFZNJBy9a+9ZLMf/D7iE2eNRGOoADlvamVi/w==",
                             PhoneNumber = "+905555555555",
                             PhoneNumberConfirmed = true,
                             Picture = "defaultUser.png",
-                            SecurityStamp = "c7394f6f-d19a-4e8b-863a-da29dbf4b623",
+                            SecurityStamp = "38705ff6-a6a0-43cc-b9ed-caaab1e6f1a0",
                             TwoFactorEnabled = false,
                             UserName = "editoruser"
                         });
@@ -422,7 +422,7 @@ namespace ProgrammersBlog.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");

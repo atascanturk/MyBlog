@@ -13,7 +13,7 @@ namespace ProgrammersBlog.Shared.DataAccess.Concrete.EntityFramework
     public class EfEntityRepositoryBase<TEntity> : IEntityRepository<TEntity>
         where TEntity : class, IEntity, new()
     {
-        private readonly DbContext _context;
+        protected  readonly DbContext _context;
 
         public EfEntityRepositoryBase(DbContext context)
         {
@@ -32,9 +32,11 @@ namespace ProgrammersBlog.Shared.DataAccess.Concrete.EntityFramework
             return await _context.Set<TEntity>().AnyAsync(predicate);
         }
 
-        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate = null)
         {
-            return await _context.Set<TEntity>().CountAsync(predicate);
+            return await (predicate == null
+                ? _context.Set<TEntity>().CountAsync()
+                : _context.Set<TEntity>().CountAsync(predicate));
         }
         
 
@@ -46,10 +48,7 @@ namespace ProgrammersBlog.Shared.DataAccess.Concrete.EntityFramework
         public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
-            if (predicate != null) 
-            {
-                query = query.Where(predicate);
-            }
+          
             if (includeProperties.Any())
             {
                 foreach (var includeProperty in includeProperties)
