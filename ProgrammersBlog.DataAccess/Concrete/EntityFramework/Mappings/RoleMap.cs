@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProgrammersBlog.Entities.Concrete;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ProgrammersBlog.Entities.Concrete;
 
-namespace ProgrammersBlog.DataAccess.Concrete.EntityFramework.Mappings
+namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
 {
     public class RoleMap : IEntityTypeConfiguration<Role>
     {
@@ -42,17 +42,17 @@ namespace ProgrammersBlog.DataAccess.Concrete.EntityFramework.Mappings
                 new Role
                 {
                     Id = 1,
-                    Name ="Admin",
+                    Name = "Admin",
                     NormalizedName = "ADMIN",
                     ConcurrencyStamp = Guid.NewGuid().ToString()
                 },
-                  new Role
-                  {
-                      Id = 2,
-                      Name="Editor",
-                      NormalizedName = "EDITOR",
-                      ConcurrencyStamp = Guid.NewGuid().ToString()
-                  });
+                new Role
+                {
+                    Id = 2,
+                    Name = "Editor",
+                    NormalizedName = "EDITOR",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                });
         }
     }
 }

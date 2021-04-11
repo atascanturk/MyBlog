@@ -37,7 +37,7 @@ namespace ProgrammersBlog.Mvc
             }); //mvc yapýsý için //razor runtime nugetten indirildi,
             //sayfadaki deðiþiklikleri anlýk olarak görüntülemek için (razorruntime)
             services.AddSession();
-            services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile),typeof(UserProfile));
+            services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile),typeof(UserProfile),typeof(ViewModelsProfile));
             services.LoadMyServices(connectionString:_configuration.GetConnectionString("LocalDB"));
             services.AddScoped<IImageHelper, ImageHelper>();
             services.ConfigureApplicationCookie(options =>

@@ -20,6 +20,8 @@ namespace ProgrammersBlog.DataAccess.Concrete.EntityFramework.Mappings
             builder.Property(a => a.Content).IsRequired();
             builder.Property(a => a.Content).HasColumnType("NVARCHAR(MAX)");
             builder.Property(a => a.Date).IsRequired();
+            builder.Property(a => a.SeoAuthor).IsRequired();
+            builder.Property(a => a.SeoAuthor).HasMaxLength(50);
             builder.Property(a => a.SeoDescription).IsRequired();
             builder.Property(a => a.SeoDescription).HasMaxLength(150);
             builder.Property(a => a.SeoTags).HasMaxLength(70);

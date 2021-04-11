@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ProgrammersBlog.Data.Concrete.EntityFramework.Mappings;
 using ProgrammersBlog.DataAccess.Concrete.EntityFramework.Mappings;
 using ProgrammersBlog.Entities.Concrete;
 using System;
@@ -22,7 +23,7 @@ namespace ProgrammersBlog.DataAccess.Concrete.EntityFramework.Contexts
         //    optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=ProgrammersBlog;Trusted_Connection=True;Connect Timeout=30;MultipleActiveResultSets=True;");
         //}
 
-        public ProgrammersBlogContext(DbContextOptions<ProgrammersBlogContext> options):base (options)
+        public ProgrammersBlogContext(DbContextOptions<ProgrammersBlogContext> options) : base(options)
         {
 
         }

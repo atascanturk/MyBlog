@@ -136,7 +136,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAllAsync()
         {
-            var categories = await _unitOfWork.Categories.GetAllAsync();
+            var categories = await _unitOfWork.Categories.GetAllAsync(null);
             if (categories.Count > -1)
             {
                 return new DataResult<CategoryListDto> (ResultStatus.Success, new CategoryListDto

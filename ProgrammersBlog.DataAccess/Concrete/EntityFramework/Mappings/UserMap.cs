@@ -1,21 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProgrammersBlog.Entities.Concrete;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ProgrammersBlog.Entities.Concrete;
 
-namespace ProgrammersBlog.DataAccess.Concrete.EntityFramework.Mappings
+namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
 {
     public class UserMap : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.Property(u => u.Picture).IsRequired();
-            builder.Property(u => u.Picture).HasMaxLength(250);// Primary key
+            builder.Property(u => u.Picture).HasMaxLength(250);
+            // Primary key
             builder.HasKey(u => u.Id);
 
             // Indexes for "normalized" username and email, to allow efficient lookups
@@ -63,7 +64,6 @@ namespace ProgrammersBlog.DataAccess.Concrete.EntityFramework.Mappings
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             adminUser.PasswordHash = CreatePasswordHash(adminUser, "adminuser");
-
             var editorUser = new User
             {
                 Id = 2,
@@ -82,10 +82,7 @@ namespace ProgrammersBlog.DataAccess.Concrete.EntityFramework.Mappings
             builder.HasData(adminUser, editorUser);
         }
 
-
-
-
-        private string CreatePasswordHash (User user, string password)
+        private string CreatePasswordHash(User user, string password)
         {
             var passwordHasher = new PasswordHasher<User>();
             return passwordHasher.HashPassword(user, password);

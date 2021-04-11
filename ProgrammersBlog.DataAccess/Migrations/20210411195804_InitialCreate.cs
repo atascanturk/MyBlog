@@ -188,7 +188,7 @@ namespace ProgrammersBlog.DataAccess.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ViewsCount = table.Column<int>(type: "int", nullable: false),
                     CommentCount = table.Column<int>(type: "int", nullable: false),
-                    SeoAuther = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SeoAuthor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SeoDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     SeoTags = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
@@ -250,8 +250,8 @@ namespace ProgrammersBlog.DataAccess.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "ba6b75e6-3755-4cf7-b3af-88472701ccea", "Admin", "ADMIN" },
-                    { 2, "fc2769ec-c93e-4b06-8c2c-82a0940df795", "Editor", "EDITOR" }
+                    { 1, "79d08c47-2e55-4a5a-bf4f-a4c171e72e1d", "Admin", "ADMIN" },
+                    { 2, "a2a082f0-7063-4b35-8e4f-9473a289d12f", "Editor", "EDITOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -259,8 +259,8 @@ namespace ProgrammersBlog.DataAccess.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Picture", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "df4e8538-e787-4b35-ba03-f7d918799d00", "adminuser@gmail.com", true, false, null, "ADMINUSER@GMAIL.COM", "ADMINUSER", "AQAAAAEAACcQAAAAEM4o2w336COg6oQx2voJ9Mtt/oWEgfVkcZtXGIbw3XPzu8KCasZzKYtnTOp6ICHmiQ==", "+905555555555", true, "defaultUser.png", "08be344f-bd61-41dc-bb3c-fbc1fe0a1b12", false, "adminuser" },
-                    { 2, 0, "2b574069-651d-4e3b-b750-f97d2dcf9477", "editoruser@gmail.com", true, false, null, "EDITORUSER@GMAIL.COM", "EDITORUSER", "AQAAAAEAACcQAAAAEFx4BHwEGInY1y/Lu9IyCjXJ3HbpzgjGr35fyVdpd1nKgcnRhY4AQDPNoHA5vHsWnQ==", "+905555555555", true, "defaultUser.png", "c7394f6f-d19a-4e8b-863a-da29dbf4b623", false, "editoruser" }
+                    { 1, 0, "5cbb522b-837e-46c9-984c-f387cf53abe0", "adminuser@gmail.com", true, false, null, "ADMINUSER@GMAIL.COM", "ADMINUSER", "AQAAAAEAACcQAAAAEDOEGCMS+VdhfjlsJR0XzZBxvjADbqCMd+bX/EeoxgEHjza7V+BHixOr3eAYtWqW2g==", "+905555555555", true, "defaultUser.png", "2c8b3eaf-3961-4672-8f38-88e0ef4b6172", false, "adminuser" },
+                    { 2, 0, "00b478c4-c34e-4fca-9997-1682a7fd49d0", "editoruser@gmail.com", true, false, null, "EDITORUSER@GMAIL.COM", "EDITORUSER", "AQAAAAEAACcQAAAAEDD+UPcVs1kPidhrZy/YAOjlsCh9az4ny/e7woeB6SeF9ZiZEXtzlXYUb9oob60PdQ==", "+905555555555", true, "defaultUser.png", "f846411e-34ad-4092-bc6c-2867901a1431", false, "editoruser" }
                 });
 
             migrationBuilder.InsertData(
@@ -268,9 +268,9 @@ namespace ProgrammersBlog.DataAccess.Migrations
                 columns: new[] { "Id", "CreatedByName", "CreatedDate", "Description", "IsActive", "IsDeleted", "ModifiedByName", "ModifiedDate", "Name", "Note" },
                 values: new object[,]
                 {
-                    { 1, "InitialCreate", new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(6565), "C# Programlama Dili ile İlgili En Güncel Bilgiler", true, false, "InitialCreate", new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7155), "C#", "C# Blog Kategorisi" },
-                    { 2, "InitialCreate", new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7729), "C++ Programlama Dili ile İlgili En Güncel Bilgiler", true, false, "InitialCreate", new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7731), "C++", "C++ Blog Kategorisi" },
-                    { 3, "InitialCreate", new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7734), "JavaScript Programlama Dili ile İlgili En Güncel Bilgiler", true, false, "InitialCreate", new DateTime(2021, 4, 2, 1, 48, 33, 101, DateTimeKind.Local).AddTicks(7735), "JavaScript", "JavaScript Blog Kategorisi" }
+                    { 1, "InitialCreate", new DateTime(2021, 4, 11, 22, 58, 3, 789, DateTimeKind.Local).AddTicks(2488), "C# Programlama Dili ile İlgili En Güncel Bilgiler", true, false, "InitialCreate", new DateTime(2021, 4, 11, 22, 58, 3, 789, DateTimeKind.Local).AddTicks(3086), "C#", "C# Blog Kategorisi" },
+                    { 2, "InitialCreate", new DateTime(2021, 4, 11, 22, 58, 3, 789, DateTimeKind.Local).AddTicks(3669), "C++ Programlama Dili ile İlgili En Güncel Bilgiler", true, false, "InitialCreate", new DateTime(2021, 4, 11, 22, 58, 3, 789, DateTimeKind.Local).AddTicks(3670), "C++", "C++ Blog Kategorisi" },
+                    { 3, "InitialCreate", new DateTime(2021, 4, 11, 22, 58, 3, 789, DateTimeKind.Local).AddTicks(3674), "JavaScript Programlama Dili ile İlgili En Güncel Bilgiler", true, false, "InitialCreate", new DateTime(2021, 4, 11, 22, 58, 3, 789, DateTimeKind.Local).AddTicks(3675), "JavaScript", "JavaScript Blog Kategorisi" }
                 });
 
             migrationBuilder.InsertData(
