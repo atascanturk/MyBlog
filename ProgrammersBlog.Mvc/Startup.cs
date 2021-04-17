@@ -34,16 +34,17 @@ namespace ProgrammersBlog.Mvc
             services.AddControllersWithViews().AddRazorRuntimeCompilation().AddJsonOptions(opt=> {
                 opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); //resultstatus "success" gibi alýnacaksa jsonnamingpolicy de kullanýlabilir 
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            }); //mvc yapýsý için //razor runtime nugetten indirildi,
+            }).AddNToastNotifyToastr();
+            //mvc yapýsý için //razor runtime nugetten indirildi,
             //sayfadaki deðiþiklikleri anlýk olarak görüntülemek için (razorruntime)
             services.AddSession();
-            services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile),typeof(UserProfile),typeof(ViewModelsProfile));
+            services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile),typeof(UserProfile),typeof(ViewModelsProfile),typeof(CommentProfile));
             services.LoadMyServices(connectionString:_configuration.GetConnectionString("LocalDB"));
             services.AddScoped<IImageHelper, ImageHelper>();
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = new PathString("/Admin/User/Login");
-                options.LogoutPath = new PathString("/Admin/User/Logout");
+                options.LoginPath = new PathString("/Admin/Auth/Login");
+                options.LogoutPath = new PathString("/Admin/Auth/Logout");
                 options.Cookie = new CookieBuilder
                 {
                     Name = "ProgrammersBlog",
@@ -53,7 +54,7 @@ namespace ProgrammersBlog.Mvc
                 };
                 options.SlidingExpiration = true;
                 options.ExpireTimeSpan = System.TimeSpan.FromDays(7);
-                options.AccessDeniedPath = new PathString("/Admin/User/AccessDenied");
+                options.AccessDeniedPath = new PathString("/Admin/Auth/AccessDenied");
 
             });
         }
@@ -72,7 +73,7 @@ namespace ProgrammersBlog.Mvc
             app.UseRouting();
             app.UseAuthentication(); // Kimlik kontrolü
             app.UseAuthorization(); // Yetki kontrolü
-
+            app.UseNToastNotify();
             app.UseEndpoints(endpoints =>
             {
                  endpoints.MapAreaControllerRoute( //tek area kullanýlacaðý için baþka uygulama olmayacaksa mapcontrollerroute

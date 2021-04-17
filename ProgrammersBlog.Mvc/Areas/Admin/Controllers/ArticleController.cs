@@ -13,6 +13,9 @@ using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Services.Abstract;
 using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using NToastNotify;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 {
@@ -21,13 +24,16 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly ICategoryService _categoryService;
+        private readonly IToastNotification _toastNotification;
 
-        public ArticleController(IArticleService articleService, ICategoryService categoryService, UserManager<User> userManager, IMapper mapper, IImageHelper imageHelper) : base(userManager, mapper, imageHelper)
+        public ArticleController(IArticleService articleService, ICategoryService categoryService, UserManager<User> userManager, IMapper mapper, IImageHelper imageHelper, IToastNotification toastNotification) : base(userManager, mapper, imageHelper)
         {
             _articleService = articleService;
             _categoryService = categoryService;
+            _toastNotification = toastNotification;
         }
 
+        [Authorize(Roles = "SuperAdmin,Article.Read")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -35,6 +41,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             if (result.ResultStatus == ResultStatus.Success) return View(result.Data);
             return NotFound();
         }
+        [Authorize(Roles = "SuperAdmin,Article.Create")]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -49,6 +56,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 
             return NotFound();
         }
+        [Authorize(Roles = "SuperAdmin,Article.Create")]
         [HttpPost]
         public async Task<IActionResult> Add(ArticleAddViewModel articleAddViewModel)
         {
@@ -61,7 +69,10 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 var result = await _articleService.AddAsync(articleAddDto, LoggedInUser.UserName, LoggedInUser.Id);
                 if (result.ResultStatus == ResultStatus.Success)
                 {
-                    TempData.Add("SuccessMessage", result.Message);
+                    _toastNotification.AddSuccessToastMessage(result.Message, new ToastrOptions { 
+                    
+                    Title ="Başarılı İşlem"
+                    });
                     return RedirectToAction("Index", "Article");
                 }
                 else
@@ -74,6 +85,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             articleAddViewModel.Categories = categories.Data.Categories;
             return View(articleAddViewModel);
         }
+        [Authorize(Roles = "SuperAdmin,Article.Update")]
         [HttpGet]
         public async Task<IActionResult> Update(int articleId)
         {
@@ -90,6 +102,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                 return NotFound();
             }
         }
+        [Authorize(Roles = "SuperAdmin,Article.Update")]
         [HttpPost]
         public async Task<IActionResult> Update(ArticleUpdateViewModel articleUpdateViewModel)
         {
@@ -117,7 +130,10 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
                     {
                         ImageHelper.Delete(oldThumbnail);
                     }
-                    TempData.Add("SuccessMessage", result.Message);
+                    _toastNotification.AddSuccessToastMessage(result.Message ,new ToastrOptions
+                    {
+                        Title = "Başarılı İşlem"
+                    });
                     return RedirectToAction("Index", "Article");
                 }
                 else
@@ -131,6 +147,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return View(articleUpdateViewModel);
         }
 
+        [Authorize(Roles = "SuperAdmin,Article.Delete")]
         [HttpPost]
         public async Task<JsonResult> Delete(int articleId)
         {
@@ -138,6 +155,19 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             var articleResult = JsonSerializer.Serialize(result);
 
             return Json(articleResult);
+        }
+
+        [Authorize(Roles = "SuperAdmin,Article.Read")]
+        [HttpGet]
+        public async Task<JsonResult> GetAllArticles()
+        {
+            var articles = await _articleService.GetAllByNonDeletedAsync();
+            var articleResult = JsonSerializer.Serialize(articles, new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            });
+
+            return Json(articleResult); 
         }
 
     }
