@@ -1,0 +1,135 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using ProgrammersBlog.Entities.Concrete;
+using ProgrammersBlog.Entities.Dtos;
+using ProgrammersBlog.Mvc.Areas.Admin.Models;
+using ProgrammersBlog.Mvc.Helpers.Abstract;
+using ProgrammersBlog.Shared.Utilities.Extensions;
+using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    public class RoleController : BaseController
+    {
+        private readonly RoleManager<Role> _roleManager;
+
+        public RoleController(RoleManager<Role> roleManager, UserManager<User> userManager, IMapper mapper, IImageHelper imageHelper) : base(userManager, mapper, imageHelper)
+        {
+            _roleManager = roleManager;
+        }
+
+        [Authorize(Roles = "SuperAdmin,Role.Read")]
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var roles = _roleManager.Roles.ToList();
+            return View(new RoleListDto
+            {
+                Roles = roles
+            }); ;
+        }
+
+        [Authorize(Roles = "SuperAdmin,Role.Read")]
+        [HttpGet]
+        public IActionResult GetAllRoles()
+        {
+            var roles = _roleManager.Roles.ToList();
+            var roleListDto = JsonSerializer.Serialize(new RoleListDto
+            {
+                Roles = roles
+            });
+
+            return Json(roleListDto);
+
+
+        }
+
+        [Authorize(Roles = "SuperAdmin,User.Update")]
+        [HttpGet]
+        public async Task<IActionResult> Assign(int userId)
+        {
+
+            var roles = _roleManager.Roles.ToList();
+            var user = UserManager.Users.SingleOrDefault(u => u.Id == userId);
+            var userRoles = await UserManager.GetRolesAsync(user);
+
+            UserRoleAssignDto userRoleAssignDto = new()
+            {
+                UserId = user.Id,
+                UserName = user.UserName
+            };
+            foreach (var role in roles)
+            {
+                RoleAssignDto roleAssignDto = new()
+                {
+                    RoleId = role.Id,
+                    RoleName = role.Name,
+                    HasRole = userRoles.Contains(role.Name)
+                };
+
+                userRoleAssignDto.RoleAssignDtos.Add(roleAssignDto);
+            }
+
+            return PartialView("_RoleAssignPartial", userRoleAssignDto);
+
+        }
+
+        [Authorize(Roles = "SuperAdmin,User.Update")]
+        [HttpPost]
+        public async Task<IActionResult> Assign(UserRoleAssignDto userRoleAssignDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = UserManager.Users.SingleOrDefault(u => u.Id == userRoleAssignDto.UserId);
+
+                foreach (var roleAssignDto in userRoleAssignDto.RoleAssignDtos)
+                {
+                    if (roleAssignDto.HasRole)
+                    {
+                        await UserManager.AddToRoleAsync(user, roleAssignDto.RoleName);
+                    }
+
+                    else
+                    {
+                        await UserManager.RemoveFromRoleAsync(user, roleAssignDto.RoleName);
+                    }
+                }
+                await UserManager.UpdateSecurityStampAsync(user);
+
+                var userRoleAssignAjaxViewModel = JsonSerializer.Serialize(new UserRoleAssignAjaxViewModel
+                {
+                    UserDto = new UserDto
+                    {
+                        User = user,
+                        Message = $"{user.UserName} kullanıcısına ait rol atama işlemi başarıyla tamamlanmıştır.",
+                        ResultStatus = ResultStatus.Success
+                    },
+                    RoleAssignPartial = await this.RenderViewToStringAsync("_RoleAssignPartial", userRoleAssignDto)
+
+                });
+
+                return Json(userRoleAssignAjaxViewModel);
+            }
+
+            else
+            {
+                var userRoleAjaxErrorModel = JsonSerializer.Serialize(new UserRoleAssignAjaxViewModel
+                {
+                    RoleAssignPartial = await this.RenderViewToStringAsync("_RoleAssignPartial", userRoleAssignDto),
+                    UserRoleAssignDto = userRoleAssignDto
+                });
+
+                return Json(userRoleAjaxErrorModel);
+
+            }
+        }
+    }
+}

@@ -17,6 +17,7 @@ namespace ProgrammersBlog.Services.Utilities.Constants.Messages
             public static string Updated(string categoryName) => $"{categoryName} adlı kategori başarıyla güncellenmiştir.";
             public static string Deleted(string categoryName) => $"{categoryName} adlı kategori başarıyla silinmiştir.";
             public static string HardDeleted(string categoryName) => $"{categoryName} adlı kategori başarıyla veritabanında silinmiştir.";
+            public static string UndoDeleted(string categoryName) => $"{categoryName} adlı kategori başarıyla arşivden geri getirilmiştir.";
         }
 
         public static class Article
@@ -28,6 +29,7 @@ namespace ProgrammersBlog.Services.Utilities.Constants.Messages
             public static string Updated(string articleName) => $"{articleName} başlıklı makale başarıyla güncellenmiştir.";
             public static string Deleted(string articleName) => $"{articleName} başlıklı makale başarıyla silinmiştir.";
             public static string HardDeleted(string articleName) => $"{articleName} başlıklı makale başarıyla veritabanında silinmiştir.";
+            public static string UndoDeleted(string articleName) => $"{articleName} başlıklı makale başarıyla arşivden geri getirilmiştir.";
         }
 
         public static class Comment
@@ -56,7 +58,7 @@ namespace ProgrammersBlog.Services.Utilities.Constants.Messages
             {
                 return $"{createdByName} tarafından eklenen yorum başarıyla veritabanından silinmiştir.";
             }
-
+            public static string UndoDeleted(string createdByName) => $"{createdByName} tarafından eklenen yorum başarıyla arşivden geri getirilmiştir.";
 
         }
 

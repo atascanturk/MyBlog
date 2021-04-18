@@ -31,7 +31,8 @@ namespace ProgrammersBlog.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddControllersWithViews().AddRazorRuntimeCompilation().AddJsonOptions(opt=> {
+            services.AddControllersWithViews(options =>
+            options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(value=> "Bu alan boþ geçilmemelidir.")).AddRazorRuntimeCompilation().AddJsonOptions(opt=> {
                 opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); //resultstatus "success" gibi alýnacaksa jsonnamingpolicy de kullanýlabilir 
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             }).AddNToastNotifyToastr();
