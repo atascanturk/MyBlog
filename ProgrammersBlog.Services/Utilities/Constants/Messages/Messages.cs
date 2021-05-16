@@ -30,6 +30,7 @@ namespace ProgrammersBlog.Services.Utilities.Constants.Messages
             public static string Deleted(string articleName) => $"{articleName} başlıklı makale başarıyla silinmiştir.";
             public static string HardDeleted(string articleName) => $"{articleName} başlıklı makale başarıyla veritabanında silinmiştir.";
             public static string UndoDeleted(string articleName) => $"{articleName} başlıklı makale başarıyla arşivden geri getirilmiştir.";
+            public static string IncreaseViewCount(string articleName) => $"{articleName} başlıklı makalenin okunma sayısı başarıyla artırılmıştır.";
         }
 
         public static class Comment

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Mvc.AutoMapper.Profiles;
 using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Mvc.Helpers.Concrete;
@@ -30,7 +31,8 @@ namespace ProgrammersBlog.Mvc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.Configure<AboutUsPageInfo>(_configuration.GetSection("AboutUsPageInfo"));
+            services.Configure<WebsiteInfo>(_configuration.GetSection("WebsiteInfo"));
             services.AddControllersWithViews(options =>
             options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(value=> "Bu alan boþ geçilmemelidir.")).AddRazorRuntimeCompilation().AddJsonOptions(opt=> {
                 opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); //resultstatus "success" gibi alýnacaksa jsonnamingpolicy de kullanýlabilir 
