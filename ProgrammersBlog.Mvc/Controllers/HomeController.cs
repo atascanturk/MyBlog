@@ -33,13 +33,13 @@ namespace ProgrammersBlog.Mvc.Controllers
 
         [HttpGet]
         public IActionResult About()
-        {
+        {           
             return View(_aboutUsPageInfo);
         }
 
         [HttpGet]
         public async Task<IActionResult> Contact()
-        {
+        {            
             return View();
         }
 

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Mvc.AutoMapper.Profiles;
+using ProgrammersBlog.Mvc.Filters;
 using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Mvc.Helpers.Concrete;
 using ProgrammersBlog.Services.AutoMapper.Profiles;
@@ -31,10 +32,15 @@ namespace ProgrammersBlog.Mvc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AboutUsPageInfo>(_configuration.GetSection("AboutUsPageInfo"));
-            services.Configure<WebsiteInfo>(_configuration.GetSection("WebsiteInfo"));
+            services.Configure<AboutUsPageInfo>(_configuration.GetSection("AboutUsPageInfo")); //appsettings json'dan veri okumak için gerekli komut.
+            services.Configure<WebsiteInfo>(_configuration.GetSection("WebsiteInfo")); //appsettings json'dan veri okumak için gerekli komut.
             services.AddControllersWithViews(options =>
-            options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(value=> "Bu alan boþ geçilmemelidir.")).AddRazorRuntimeCompilation().AddJsonOptions(opt=> {
+            {
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(value => "Bu alan boþ geçilmemelidir.");
+                options.Filters.Add<MvcExceptionFilter>(); //filtre eklemek için gerekli komut.            
+
+
+            }).AddRazorRuntimeCompilation().AddJsonOptions(opt=> {
                 opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); //resultstatus "success" gibi alýnacaksa jsonnamingpolicy de kullanýlabilir 
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             }).AddNToastNotifyToastr();
