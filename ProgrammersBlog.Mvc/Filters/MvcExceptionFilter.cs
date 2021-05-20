@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using ProgrammersBlog.Shared.Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,13 @@ namespace ProgrammersBlog.Mvc.Filters
     {
         private readonly IHostEnvironment _environment;
         private readonly IModelMetadataProvider _metadataProvider;
+        private readonly ILogger _logger;
 
-        public MvcExceptionFilter(IHostEnvironment environment, IModelMetadataProvider metadataProvider)
+        public MvcExceptionFilter(IHostEnvironment environment, IModelMetadataProvider metadataProvider, ILogger<MvcExceptionFilter> logger)
         {
             _environment = environment;
             _metadataProvider = metadataProvider;
+            _logger = logger;
         }
 
         public void OnException(ExceptionContext context)
@@ -36,15 +39,18 @@ namespace ProgrammersBlog.Mvc.Filters
                         mvcErrorModel.Message = $"Üzgünüz, işleminiz sırasında beklenmedik bir veritabanı hatası oluştu. Sorunu en kısa sürede çözeceğiz.";
                         mvcErrorModel.Detail = context.Exception.Message;
                         //ViewResult result1 = new ViewResult { ViewName = "Error" }; bu şekilde ayrı bir view ile de gösterilebilir.
+                        _logger.LogError(context.Exception, context.Exception.Message);
                         break;
 
                     case NullReferenceException:
                         mvcErrorModel.Message = $"Üzgünüz, işleminiz sırasında beklenmedik bir referans hatası oluştu. Sorunu en kısa sürede çözeceğiz.";
                         mvcErrorModel.Detail = context.Exception.Message;
+                        _logger.LogError(context.Exception, context.Exception.Message);
                         break;
 
                     default:
                         mvcErrorModel.Message = $"Üzgünüz, işleminiz sırasında beklenmedik bir hata oluştu. Sorunu en kısa sürede çözeceğiz.";
+                        _logger.LogError(context.Exception, context.Exception.Message);
                         break;
                 }
                 var result = new ViewResult { ViewName = "Error" };

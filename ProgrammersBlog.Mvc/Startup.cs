@@ -34,6 +34,7 @@ namespace ProgrammersBlog.Mvc
         {
             services.Configure<AboutUsPageInfo>(_configuration.GetSection("AboutUsPageInfo")); //appsettings json'dan veri okumak için gerekli komut.
             services.Configure<WebsiteInfo>(_configuration.GetSection("WebsiteInfo")); //appsettings json'dan veri okumak için gerekli komut.
+            services.Configure<SmtpSettings>(_configuration.GetSection("SmtpSettings")); //appsettings json'dan veri okumak için gerekli komut.
             services.AddControllersWithViews(options =>
             {
                 options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(value => "Bu alan boþ geçilmemelidir.");

@@ -26,7 +26,7 @@ namespace ProgrammersBlog.Entities.Dtos
         [MaxLength(125, ErrorMessage = "{0} alanı en fazla {1} karakterden oluşmalıdır.")]
         [MinLength(5, ErrorMessage = "{0} alanı en az {1} karakterden oluşmalıdır.")]
         public string Subject { get; set; }
-        [DisplayName("Mesajınız")]
+        [DisplayName("Mesaj")]
         [Required(ErrorMessage = "{0} alanı zorunludur")]
         [MaxLength(1500, ErrorMessage = "{0} alanı en fazla {1} karakterden oluşmalıdır.")]
         [MinLength(20, ErrorMessage = "{0} alanı en az {1} karakterden oluşmalıdır.")]
